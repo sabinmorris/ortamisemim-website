@@ -1,0 +1,1 @@
+To veriry Email <a href="{{route('sendMailDone', ['email' => $user->email, 'veriryToken' => $user->verifyToken ])}}">Click Here</a>
