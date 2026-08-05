@@ -10,7 +10,7 @@
     
     <nav id="navmenu" class="navmenu">
       <ul>
-        <li><a href="{{Route('/')}}" class="active">{{strtoupper('Home1')}}</a></li>
+        <li><a href="{{Route('/')}}" class="active">{{strtoupper('Home')}}</a></li>
         <li><a href="{{Route('about_Us')}}" class="active">{{ strtoupper('Kuhusu Sisi')}}</a></li>
         <li><a href="{{Route('events')}}">{{ strtoupper('Habari na Matukio')}}</a></li>
         <li><a href="{{Route('our_leadership')}}">{{ strtoupper('Uongozi')}}</a></li>
