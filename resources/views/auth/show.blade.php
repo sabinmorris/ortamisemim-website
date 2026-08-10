@@ -53,7 +53,7 @@
                                                                                     <p>Email: {{$user->email}}</p>
                                                                                     <p>Role: {{$user->role}}</p>
                                                                                     <p>Status: {{$user->status? 'Active' : 'Inactive'}}</p>
-                                                                                    <p>Member since {{Auth::user()->created_at->toFormattedDateString()}}</p>
+                                                                                    <p>Member since: {{ $user->created_at ? \Carbon\Carbon::parse($user->created_at)->format('d-m-Y') : 'N/A'}}</p>
                                                                                 </div>
                                                                                 <div class="col-sm-3 ">
                                                                                     <a href=""><i class="btn btn-primary">Edit</i></a>
