@@ -19,75 +19,98 @@ class TrackVisitor
     public function handle(Request $request, Closure $next): Response
     {
 
-    $response = $next($request);
+        $response = $next($request);
 
-    try {
-        // Only GET requests
-        if (! $request->isMethod('GET')) {
-            return $response;
+        try {
+            // Only GET requests
+            if (! $request->isMethod('GET')) {
+                return $response;
+            }
+
+            // Only requests expecting HTML
+            if (! str_contains(
+                $request->header('Accept', ''),
+                'text/html'
+            )) {
+                return $response;
+            }
+
+            $ip = $request->ip();
+
+            $position = GeoIP::getLocation($ip);
+
+            $recent = Visitor::where('ip_address', $ip)
+                ->where('url', $request->fullUrl())
+                ->where('created_at', '>=', now()->subMinutes(5))
+                ->exists();
+
+            if (! $recent) {
+                Visitor::firstOrCreate(
+                    [
+                        'ip_address' => $ip,
+                        'url'        => $request->fullUrl(),
+                    ],
+                    [
+                        'country'      => $position?->countryName,
+                        'country_code' => $position?->countryCode,
+                        'region'       => $position?->regionName,
+                        'city'         => $position?->cityName,
+                        'latitude'     => $position?->latitude,
+                        'longitude'    => $position?->longitude,
+                        'user_agent'   => $request->userAgent(),
+                    ]
+                );
+            }
+
+            // Visitor::create([
+            //     'ip_address'   => $ip,
+            //     'country'      => $position?->countryName,
+            //     'country_code' => $position?->countryCode,
+            //     'region'       => $position?->regionName,
+            //     'city'         => $position?->cityName,
+            //     'latitude'     => $position?->latitude,
+            //     'longitude'    => $position?->longitude,
+            //     'url'          => $request->fullUrl(),
+            //     'user_agent'   => $request->userAgent(),
+            // ]);
+
+        } catch (\Throwable $e) {
+            report($e);
         }
 
-        // Only requests expecting HTML
-        if (! str_contains(
-            $request->header('Accept', ''),
-            'text/html'
-        )) {
-            return $response;
-        }
+        return $response;
 
-        $ip = $request->ip();
+        // $response = $next($request);
 
-        $position = GeoIP::getLocation($ip);
+        // try {
 
-        Visitor::create([
-            'ip_address'   => $ip,
-            'country'      => $position?->countryName,
-            'country_code' => $position?->countryCode,
-            'region'       => $position?->regionName,
-            'city'         => $position?->cityName,
-            'latitude'     => $position?->latitude,
-            'longitude'    => $position?->longitude,
-            'url'          => $request->fullUrl(),
-            'user_agent'   => $request->userAgent(),
-        ]);
+        //     $ip = $request->ip();
 
-    } catch (\Throwable $e) {
-        report($e);
-    }
+        //     $position = GeoIP::getLocation($ip);
 
-    return $response;
+        //     Visitor::create([
+        //         'ip_address' => $ip,
+        //         'country' => $position ? $position->countryName : null,
+        //         'country_code' => $position ? $position->countryCode : null,
+        //         'region' => $position ? $position->regionName : null,
+        //         'city' => $position ? $position->cityName : null,
+        //         'latitude' => $position ? $position->latitude : null,
+        //         'longitude' => $position ? $position->longitude : null,
+        //         'url' => $request->fullUrl(),
+        //         'user_agent' => $request->userAgent(),
+        //     ]);
 
-    // $response = $next($request);
 
-    // try {
 
-    //     $ip = $request->ip();
-        
-    //     $position = GeoIP::getLocation($ip);
+        // } catch (\Exception $e) {
 
-    //     Visitor::create([
-    //         'ip_address' => $ip,
-    //         'country' => $position ? $position->countryName : null,
-    //         'country_code' => $position ? $position->countryCode : null,
-    //         'region' => $position ? $position->regionName : null,
-    //         'city' => $position ? $position->cityName : null,
-    //         'latitude' => $position ? $position->latitude : null,
-    //         'longitude' => $position ? $position->longitude : null,
-    //         'url' => $request->fullUrl(),
-    //         'user_agent' => $request->userAgent(),
-    //     ]);
+        //     report('Visitor tracking error: ' . $e->getMessage());
+        // }
 
-        
+        // return $response;
 
-    // } catch (\Exception $e) {
 
-    //     report('Visitor tracking error: ' . $e->getMessage());
-    // }
 
-    // return $response;
-   
-    
-   
         // $response = $next($request);
 
         // $ip = $request->ip();
@@ -114,6 +137,6 @@ class TrackVisitor
         // }
 
         // return $response;
-        
+
     }
 }
