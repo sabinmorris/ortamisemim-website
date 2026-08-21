@@ -48,15 +48,13 @@ class TrackVisitor
                 Visitor::firstOrCreate(
                     [
                         'ip_address' => $ip,
-                        'url'        => $request->fullUrl(),
-                    ],
-                    [
                         'country'      => $position?->countryName,
                         'country_code' => $position?->countryCode,
                         'region'       => $position?->regionName,
                         'city'         => $position?->cityName,
                         'latitude'     => $position?->latitude,
                         'longitude'    => $position?->longitude,
+                        'url'        => $request->fullUrl(),
                         'user_agent'   => $request->userAgent(),
                     ]
                 );
