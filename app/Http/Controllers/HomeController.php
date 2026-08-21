@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
+use App\Models\Video;
+use App\Models\Visitor;
+use App\Models\UploadedDocs;
 use Illuminate\Http\Request;
+use App\Models\PictureCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -26,7 +31,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $usersData = User::count();
+        $postData = Post::count();
+        $pictureData = PictureCollection::count();
+        $videoData = Video::count();
+        $visitorsData = Post::where('post_status', 1)->sum("view_count");
+        $documentData = UploadedDocs::count();
+
+        $totalVisitors = Visitor::count();
+
+        $todayVisitors = Visitor::whereDate('created_at', today())->count();
+
+        $countries = Visitor::distinct('country')
+            ->count('country');
+        return view('admin.dashboard', compact(['usersData', 'postData', 'pictureData', 'videoData', 'visitorsData', 'documentData', 'totalVisitors', 'todayVisitors', 'countries']));
     }
 
     public function viewusers()

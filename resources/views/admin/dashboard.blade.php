@@ -19,35 +19,52 @@
         <div class="alert alert-success">{{ session('message') }}</div>
         @endif
         <div class="tile_count">
+          @if($totalVisitors)
           <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-            <div class="count">2500</div>
-            <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+            <div class="count">{{$totalVisitors}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($totalVisitors)/100}}%</i></span>
           </div>
+          @endif
+          @if($postData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-clock-o"></i> Average Time</span>
-            <div class="count">123.50</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-clock-o"></i> Total Posts</span>
+            <div class="count">{{$postData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($postData)/100}}%</i></span>
           </div>
+          @endif
+          @if($pictureData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-            <div class="count green">2,500</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-user"></i> Total Pictures</span>
+            <div class="count green">{{$pictureData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($pictureData)/100}}% </i></span>
           </div>
+          @endif
+          @if($videoData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-            <div class="count">4,567</div>
-            <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-user"></i> Total Videos</span>
+            <div class="count">{{$videoData}}</div>
+            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{($videoData)/100}}% </i></span>
           </div>
+          @endif
+          @if($visitorsData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Collections</span>
-            <div class="count">2,315</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-user"></i> Total Visitors</span>
+            <div class="count">{{$visitorsData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($visitorsData)/100}}% </i></span>
           </div>
+          @endif
+          @if($documentData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Connections</span>
-            <div class="count">7,325</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            <span class="count_top"><i class="fa fa-user"></i> Total Documents</span>
+            <div class="count">{{$documentData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($documentData)/100}}% </i></span>
+          </div>
+          @endif
+          <div class="col-md-2 col-sm-4  tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Documents</span>
+            <div class="count">{{$documentData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($documentData)/100}}% </i></span>
           </div>
         </div>
       </div>
