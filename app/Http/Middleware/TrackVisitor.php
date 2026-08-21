@@ -19,39 +19,72 @@ class TrackVisitor
     public function handle(Request $request, Closure $next): Response
     {
 
-    //$ip = $request->ip();
-//     $position = GeoIP::getLocation();
-
-// dd($position);
-
     $response = $next($request);
 
     try {
+        // Only GET requests
+        if (! $request->isMethod('GET')) {
+            return $response;
+        }
+
+        // Only requests expecting HTML
+        if (! str_contains(
+            $request->header('Accept', ''),
+            'text/html'
+        )) {
+            return $response;
+        }
 
         $ip = $request->ip();
-        
+
         $position = GeoIP::getLocation($ip);
 
         Visitor::create([
-            'ip_address' => $ip,
-            'country' => $position ? $position->countryName : null,
-            'country_code' => $position ? $position->countryCode : null,
-            'region' => $position ? $position->regionName : null,
-            'city' => $position ? $position->cityName : null,
-            'latitude' => $position ? $position->latitude : null,
-            'longitude' => $position ? $position->longitude : null,
-            'url' => $request->fullUrl(),
-            'user_agent' => $request->userAgent(),
+            'ip_address'   => $ip,
+            'country'      => $position?->countryName,
+            'country_code' => $position?->countryCode,
+            'region'       => $position?->regionName,
+            'city'         => $position?->cityName,
+            'latitude'     => $position?->latitude,
+            'longitude'    => $position?->longitude,
+            'url'          => $request->fullUrl(),
+            'user_agent'   => $request->userAgent(),
         ]);
 
-        
-
-    } catch (\Exception $e) {
-
-        report('Visitor tracking error: ' . $e->getMessage());
+    } catch (\Throwable $e) {
+        report($e);
     }
 
     return $response;
+
+    // $response = $next($request);
+
+    // try {
+
+    //     $ip = $request->ip();
+        
+    //     $position = GeoIP::getLocation($ip);
+
+    //     Visitor::create([
+    //         'ip_address' => $ip,
+    //         'country' => $position ? $position->countryName : null,
+    //         'country_code' => $position ? $position->countryCode : null,
+    //         'region' => $position ? $position->regionName : null,
+    //         'city' => $position ? $position->cityName : null,
+    //         'latitude' => $position ? $position->latitude : null,
+    //         'longitude' => $position ? $position->longitude : null,
+    //         'url' => $request->fullUrl(),
+    //         'user_agent' => $request->userAgent(),
+    //     ]);
+
+        
+
+    // } catch (\Exception $e) {
+
+    //     report('Visitor tracking error: ' . $e->getMessage());
+    // }
+
+    // return $response;
    
     
    
