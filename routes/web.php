@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PagesController;
+use App\Http\Middleware\TrackVisitor;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,6 +114,11 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('manage-picture', PictureCollectionController::class);
     Route::post('manage-picture-status', [GeneralUpdateController::class, 'updatepicturestatus'])->name('update_photo_status');
     Route::post('manage-picture-update', [GeneralUpdateController::class, 'updatepicture'])->name('update_photo');
+});
+
+
+Route::middleware(['visitor'])->group(function (){
+    Route::post('visitor', [TrackVisitor::class, 'handle']);
 });
 
 // Route::fallback(function(){
