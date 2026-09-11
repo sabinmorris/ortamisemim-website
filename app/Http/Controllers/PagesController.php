@@ -7,11 +7,13 @@ use App\Models\Slide;
 use App\Models\Video;
 use App\Mail\SendMail;
 use App\Models\AboutUs;
+use App\Models\Visitor;
 use App\Models\Leadership;
 use App\Models\Anouncement;
 use App\Models\MessageInfo;
 use App\Models\UploadedDocs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\MinisterComment;
 use App\Models\DepartmentService;
 use App\Models\PictureCollection;
@@ -43,7 +45,26 @@ class PagesController extends Controller
         $ministerInfos = MinisterComment::where('status', 1)->get();
         $videoInfos1 = Video::where('status', 1)->orderBy('id', 'desc')->paginate(2);
         $departmentInfos = DepartmentService::where('status', 1)->orderBy('id', 'desc')->get();
-        return view('index', compact(['slideInfos', 'postInfos', 'postInfos1', 'anouncementInfos', 'ministerInfos', 'videoInfos1', 'departmentInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count(); 
+
+        return view('index', compact(['slideInfos', 'postInfos', 'postInfos1', 'anouncementInfos', 'ministerInfos', 'videoInfos1', 'departmentInfos','totalVisitors','todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function aboutUs()

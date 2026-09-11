@@ -39,102 +39,64 @@ class TrackVisitor
 
             $position = GeoIP::getLocation($ip);
 
+            // Check that a real country was found
+            $country = $position?->countryName;
+            $countryCode = $position?->countryCode;
+
+            // Optional: log GeoIP result for testing
+            logger()->info('GeoIP result', [
+                'ip' => $ip,
+                'country' => $country,
+                'country_code' => $countryCode,
+                'city' => $position?->cityName,
+            ]);
+
             $recent = Visitor::where('ip_address', $ip)
                 ->where('url', $request->fullUrl())
                 ->where('created_at', '>=', now()->subMinutes(5))
                 ->exists();
 
             if (! $recent) {
-                Visitor::firstOrCreate(
-                    [
-                        'ip_address' => $ip,
-                        'country'      => $position?->countryName,
-                        'country_code' => $position?->countryCode,
-                        'region'       => $position?->regionName,
-                        'city'         => $position?->cityName,
-                        'latitude'     => $position?->latitude,
-                        'longitude'    => $position?->longitude,
-                        'url'        => $request->fullUrl(),
-                        'user_agent'   => $request->userAgent(),
-                    ]
-                );
+                Visitor::create([
+                    'ip_address'   => $ip,
+                    'country'      => $country,
+                    'country_code' => $countryCode,
+                    'region'       => $position?->regionName,
+                    'city'         => $position?->cityName,
+                    'latitude'     => $position?->latitude,
+                    'longitude'    => $position?->longitude,
+                    'url'          => $request->fullUrl(),
+                    'user_agent'   => $request->userAgent(),
+                ]);
             }
 
-            // Visitor::create([
-            //     'ip_address'   => $ip,
-            //     'country'      => $position?->countryName,
-            //     'country_code' => $position?->countryCode,
-            //     'region'       => $position?->regionName,
-            //     'city'         => $position?->cityName,
-            //     'latitude'     => $position?->latitude,
-            //     'longitude'    => $position?->longitude,
-            //     'url'          => $request->fullUrl(),
-            //     'user_agent'   => $request->userAgent(),
-            // ]);
+            // $recent = Visitor::where('ip_address', $ip)
+            //     ->where('url', $request->fullUrl())
+            //     ->where('created_at', '>=', now()->subMinutes(5))
+            //     ->exists();
+
+            // if (! $recent) {
+            //     Visitor::firstOrCreate(
+            //         [
+            //             'ip_address' => $ip,
+            //             'country'      => $position?->countryName,
+            //             'country_code' => $position?->countryCode,
+            //             'region'       => $position?->regionName,
+            //             'city'         => $position?->cityName,
+            //             'latitude'     => $position?->latitude,
+            //             'longitude'    => $position?->longitude,
+            //             'url'        => $request->fullUrl(),
+            //             'user_agent'   => $request->userAgent(),
+            //         ]
+            //     );
+            // }
+
 
         } catch (\Throwable $e) {
             report($e);
         }
 
         return $response;
-
-        // $response = $next($request);
-
-        // try {
-
-        //     $ip = $request->ip();
-
-        //     $position = GeoIP::getLocation($ip);
-
-        //     Visitor::create([
-        //         'ip_address' => $ip,
-        //         'country' => $position ? $position->countryName : null,
-        //         'country_code' => $position ? $position->countryCode : null,
-        //         'region' => $position ? $position->regionName : null,
-        //         'city' => $position ? $position->cityName : null,
-        //         'latitude' => $position ? $position->latitude : null,
-        //         'longitude' => $position ? $position->longitude : null,
-        //         'url' => $request->fullUrl(),
-        //         'user_agent' => $request->userAgent(),
-        //     ]);
-
-
-
-        // } catch (\Exception $e) {
-
-        //     report('Visitor tracking error: ' . $e->getMessage());
-        // }
-
-        // return $response;
-
-
-
-        // $response = $next($request);
-
-        // $ip = $request->ip();
-
-        // // Don't record local development addresses
-        // if (!in_array($ip, ['127.0.0.1', '::1'])) {
-
-        //     $position = GeoIP::getLocation($ip);
-
-        //     if ($position) {
-
-        //         Visitor::create([
-        //             'ip_address' => $ip,
-        //             'country' => $position->countryName,
-        //             'country_code' => $position->countryCode,
-        //             'region' => $position->regionName,
-        //             'city' => $position->cityName,
-        //             'latitude' => $position->latitude,
-        //             'longitude' => $position->longitude,
-        //             'url' => $request->fullUrl(),
-        //             'user_agent' => $request->userAgent(),
-        //         ]);
-        //     }
-        // }
-
-        // return $response;
 
     }
 }

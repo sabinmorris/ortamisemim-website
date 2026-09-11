@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+// use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Video;
@@ -31,20 +33,49 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $usersData = User::count();
-        $postData = Post::count();
-        $pictureData = PictureCollection::count();
-        $videoData = Video::count();
-        $visitorsData = Post::where('post_status', 1)->sum("view_count");
-        $documentData = UploadedDocs::count();
+        $totalUsers = User::count();
+        $totalPosts = Post::count();
+        $totalPictureData = PictureCollection::count();
+        $totalVideoData = Video::count();
+        $totalDocumentData = UploadedDocs::count();
 
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
         $totalVisitors = Visitor::count();
 
-        $todayVisitors = Visitor::whereDate('created_at', today())->count();
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
 
-        $countries = Visitor::distinct('country')
-            ->count('country');
-        return view('admin.dashboard', compact(['usersData', 'postData', 'pictureData', 'videoData', 'visitorsData', 'documentData', 'totalVisitors', 'todayVisitors', 'countries']));
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        // Total unique countries
+        $totalCountries = Visitor::whereNotNull('country_code')->distinct('country_code')->count('country_code');
+
+        // Today's unique countries
+        $todayCountries = Visitor::whereDate('created_at', $today)
+            ->whereNotNull('country_code')
+            ->distinct('country_code')
+            ->count('country_code');
+
+        // Weekly unique countries
+        $weeklyCountries = Visitor::whereBetween(
+            'created_at',
+            [$weekStart, $weekEnd]
+        )
+            ->whereNotNull('country_code')
+            ->distinct('country_code')
+            ->count('country_code');
+
+        return view('admin.dashboard', compact(['totalUsers', 'totalPosts', 'totalPictureData', 'totalVideoData', 'totalDocumentData', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors', 'totalCountries']));
     }
 
     public function viewusers()

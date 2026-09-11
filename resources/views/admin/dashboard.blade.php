@@ -19,53 +19,48 @@
         <div class="alert alert-success">{{ session('message') }}</div>
         @endif
         <div class="tile_count">
-          @if($totalVisitors)
+          @if($totalUsers)
           <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
+            <div class="count">{{$totalUsers}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($totalUsers)/100}}%</i></span>
+          </div>
+          @endif
+          @if($totalVisitors)
+          <div class="col-md-2 col-sm-4  tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total Visitors</span>
             <div class="count">{{$totalVisitors}}</div>
             <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($totalVisitors)/100}}%</i></span>
           </div>
           @endif
-          @if($postData)
+          @if($totalPosts)
           <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Total Posts</span>
-            <div class="count">{{$postData}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($postData)/100}}%</i></span>
+            <div class="count">{{$totalPosts}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($totalPosts)/100}}%</i></span>
           </div>
           @endif
-          @if($pictureData)
+          @if($totalPictureData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Pictures</span>
-            <div class="count green">{{$pictureData}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($pictureData)/100}}% </i></span>
+            <div class="count green">{{$totalPictureData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($totalPictureData)/100}}% </i></span>
           </div>
           @endif
-          @if($videoData)
+          @if($totalVideoData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Videos</span>
-            <div class="count">{{$videoData}}</div>
-            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{($videoData)/100}}% </i></span>
+            <div class="count">{{$totalVideoData}}</div>
+            <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{($totalVideoData)/100}}% </i></span>
           </div>
           @endif
-          @if($visitorsData)
-          <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Visitors</span>
-            <div class="count">{{$visitorsData}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($visitorsData)/100}}% </i></span>
-          </div>
-          @endif
-          @if($documentData)
+          @if($totalDocumentData)
           <div class="col-md-2 col-sm-4  tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Documents</span>
-            <div class="count">{{$documentData}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($documentData)/100}}% </i></span>
+            <div class="count">{{$totalDocumentData}}</div>
+            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($totalDocumentData)/100}}% </i></span>
           </div>
           @endif
-          <div class="col-md-2 col-sm-4  tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Documents</span>
-            <div class="count">{{$documentData}}</div>
-            <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{($documentData)/100}}% </i></span>
-          </div>
         </div>
       </div>
       <!-- /top tiles -->
@@ -93,35 +88,157 @@
             </div>
             <div class="x_content">
               <div class="dashboard-widget-content">
-                <div class="col-md-4 hidden-small">
-                  <h2 class="line_30">125.7k Views from 60 countries</h2>
+                <div class="col-md-4 col-sm-4 ">
+                  <div class="x_panel tile fixed_height_320">
+                    <div class="x_title">
+                      <h2>View Visitors By Countries</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
 
-                  <table class="countries_list">
-                    <tbody>
-                      <tr>
-                        <td>United States</td>
-                        <td class="fs15 fw700 text-right">33%</td>
-                      </tr>
-                      <tr>
-                        <td>France</td>
-                        <td class="fs15 fw700 text-right">27%</td>
-                      </tr>
-                      <tr>
-                        <td>Germany</td>
-                        <td class="fs15 fw700 text-right">16%</td>
-                      </tr>
-                      <tr>
-                        <td>Spain</td>
-                        <td class="fs15 fw700 text-right">11%</td>
-                      </tr>
-                      <tr>
-                        <td>Britain</td>
-                        <td class="fs15 fw700 text-right">10%</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      <table class="countries_list">
+                        <tbody>
+                          <tr>
+                            <td>United States</td>
+                            <td class="fs15 fw700 text-right">33%</td>
+                          </tr>
+                          <tr>
+                            <td>France</td>
+                            <td class="fs15 fw700 text-right">27%</td>
+                          </tr>
+                          <tr>
+                            <td>Germany</td>
+                            <td class="fs15 fw700 text-right">16%</td>
+                          </tr>
+                          <tr>
+                            <td>Spain</td>
+                            <td class="fs15 fw700 text-right">11%</td>
+                          </tr>
+                          <tr>
+                            <td>Britain</td>
+                            <td class="fs15 fw700 text-right">10%</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-                <div id="world-map-gdp" class="col-md-8 col-sm-12 " style="height:230px;"></div>
+                <div class="col-md-4 col-sm-4 ">
+                  <div class="x_panel tile fixed_height_320">
+                    <div class="x_title">
+                      <h2>View Visitors By Time</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                      <div class="widget_summary">
+                        <div class="w_left w_25">
+                          <span>Today's visitors</span>
+                        </div>
+                        <div class="w_center w_55">
+                          <div class="progress">
+                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(($todayVisitors)/($totalVisitors))*100}}% ;">
+                              <span class="sr-only">{{(($todayVisitors)/($totalVisitors))*100}}% Complete</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="w_right w_20">
+                          <span>{{$todayVisitors}}</span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+
+                      <div class="widget_summary">
+                        <div class="w_left w_25">
+                          <span>Weekly Visitors</span>
+                        </div>
+                        <div class="w_center w_55">
+                          <div class="progress">
+                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(($weeklyVisitors)/($totalVisitors))*100}}%;">
+                              <span class="sr-only">{{(($weeklyVisitors)/($totalVisitors))*100}}% Complete</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="w_right w_20">
+                          <span>{{$weeklyVisitors}}</span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="widget_summary">
+                        <div class="w_left w_25">
+                          <span>Monthly Visitors</span>
+                        </div>
+                        <div class="w_center w_55">
+                          <div class="progress">
+                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(($monthlyVisitors)/($totalVisitors))*100}}%;">
+                              <span class="sr-only">{{(($monthlyVisitors)/($totalVisitors))*100}}% Complete</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="w_right w_20">
+                          <span>{{$monthlyVisitors}}</span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="widget_summary">
+                        <div class="w_left w_25">
+                          <span>Total Visitors</span>
+                        </div>
+                        <div class="w_center w_55">
+                          <div class="progress">
+                            <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{(($totalVisitors)/($totalVisitors))*100}}%;">
+                              <span class="sr-only">{{(($totalVisitors)/($totalVisitors))*100}}% Complete</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="w_right w_20">
+                          <span>{{$totalVisitors}}</span>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-4 ">
+                  <div class="x_panel tile fixed_height_320">
+                    <div class="x_title">
+                      <h2>View Visitors On Map</h2>
+                      <ul class="nav navbar-right panel_toolbox">
+                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        </li>
+                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                    <div id="world-map-gdp" style="height:230px;"></div>
+
+                    </div>
+                  </div>
+                </div>
+                <!-- <div id="world-map-gdp" class="col-md-4 col-sm-12 " style="height:230px;"></div> -->
               </div>
             </div>
           </div>
@@ -131,8 +248,6 @@
       <br />
 
       <div class="row">
-
-
         <div class="col-md-4 col-sm-4 ">
           <div class="x_panel tile fixed_height_320">
             <div class="x_title">

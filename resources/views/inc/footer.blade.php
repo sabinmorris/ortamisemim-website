@@ -1,4 +1,97 @@
+<div class="row g-4">
 
+    <!-- Total Visitors -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <p class="text-muted mb-1">Total Visitors</p>
+                        <h3 class="fw-bold mb-0">
+                            {{ $totalVisitors }}
+                        </h3>
+                    </div>
+
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                        <i class="bi bi-people-fill text-primary fs-3"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Today's Visitors -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <p class="text-muted mb-1">Today's Visitors</p>
+                        <h3 class="fw-bold mb-0">
+                            {{ $todayVisitors }}
+                        </h3>
+                    </div>
+
+                    <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                        <i class="bi bi-person-check-fill text-success fs-3"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Weekly Visitors -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <p class="text-muted mb-1">This Week</p>
+                        <h3 class="fw-bold mb-0">
+                            {{ $weeklyVisitors }}
+                        </h3>
+                    </div>
+
+                    <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                        <i class="bi bi-calendar-week-fill text-warning fs-3"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Monthly Visitors -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <p class="text-muted mb-1">This Month</p>
+                        <h3 class="fw-bold mb-0">
+                            {{ $monthlyVisitors }}
+                        </h3>
+                    </div>
+
+                    <div class="bg-info bg-opacity-10 rounded-circle p-3">
+                        <i class="bi bi-calendar-month-fill text-info fs-3"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 <!-- <footer id="footer" class="footer dark-background"> -->
 <footer id="footer" class="footer neon-mirror-blue">
 
@@ -64,6 +157,7 @@
         <li><a href="https://mutm.tamisemim.go.tz/zcrlb/index" target="_blank">Liquor Board</a></li>
         <!--<li><a href="#">Flexo</a></li> -->
       </ul>
+      
     </div>
 
   </div>
