@@ -74,7 +74,26 @@ class PagesController extends Controller
         $departmentInfos = DepartmentService::where('status', 1)->orderBy('id', 'desc')->limit(3)->get();
         $departmentInform = DepartmentService::where('status', 1)->get();
         $pictureInfos = PictureCollection::where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
-        return view('pages.about', compact(['aboutusInfos', 'leaderInfos', 'departmentInfos', 'departmentInform', 'pictureInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.about', compact(['aboutusInfos', 'leaderInfos', 'departmentInfos', 'departmentInform', 'pictureInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function newsevents()
@@ -84,13 +103,51 @@ class PagesController extends Controller
         $videoInfos1 = Video::where('status', 1)->orderBy('id', 'desc')->paginate(2);
         $departmentInfos = DepartmentService::where('status', 1)->get();
         $leaderInfos = Leadership::where('status', 1)->get();
-        return view('pages.newsevent', compact(['postInfos', 'videoInfos1', 'departmentInfos', 'leaderInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.newsevent', compact(['postInfos', 'videoInfos1', 'departmentInfos', 'leaderInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function contactUs()
     {
         $departmentInfos = DepartmentService::where('status', 1)->get();
-        return view('pages.contact', compact(['departmentInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.contact', compact(['departmentInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function videoLibrary()
@@ -99,7 +156,26 @@ class PagesController extends Controller
         $videoInfos1 = Video::where('status', 1)->orderBy('id', 'desc')->paginate(1);
         $departmentInfos = DepartmentService::where('status', 1)->get();
         $leaderInfos = Leadership::where('status', 1)->get();
-        return view('pages.videolibrary', compact(['videoInfos', 'videoInfos1', 'departmentInfos', 'leaderInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.videolibrary', compact(['videoInfos', 'videoInfos1', 'departmentInfos', 'leaderInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function photoLibrary()
@@ -109,17 +185,55 @@ class PagesController extends Controller
         $postInfos = Post::where('post_status', 1)->orderBy('id', 'desc')->paginate(4);
         $departmentInfos = DepartmentService::where('status', 1)->get();
         $leaderInfos = Leadership::where('status', 1)->get();
-        return view('pages.photolibrary', compact(['slideInfos', 'postInfos1', 'postInfos', 'departmentInfos', 'leaderInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.photolibrary', compact(['slideInfos', 'postInfos1', 'postInfos', 'departmentInfos', 'leaderInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function readmorepost($id)
     {
         $postInfos = Post::where('post_status', 1)->orderBy('id', 'desc')->paginate(4);
-        Post::find($id)->increment('view_count');
+        // Post::find($id)->increment('view_count');
         $postInfo = Post::find($id);
         $departmentInfos = DepartmentService::where('status', 1)->get();
         $videoInfos1 = Video::orderBy('id', 'desc')->paginate(2);
-        return view('readmore', compact(['postInfos', 'postInfo', 'departmentInfos', 'videoInfos1']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('readmore', compact(['postInfos', 'postInfo', 'departmentInfos', 'videoInfos1', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function readmoreabout()
@@ -128,14 +242,52 @@ class PagesController extends Controller
         $departmentInfos = DepartmentService::where('status', 1)->orderBy('id', 'asc')->get();
         $pictureInfos = PictureCollection::where('status', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $leaderInfos = Leadership::where('status', 1)->get();
-        return view('pages.readmoreabout', compact(['aboutusInfos', 'departmentInfos', 'pictureInfos', 'leaderInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+        
+        return view('pages.readmoreabout', compact(['aboutusInfos', 'departmentInfos', 'pictureInfos', 'leaderInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function leadership()
     {
         $leaderInfos = Leadership::where('status', 1)->get();
         $departmentInfos = DepartmentService::where('status', 1)->get();
-        return view('pages.leadership', compact(['leaderInfos', 'departmentInfos']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.leadership', compact(['leaderInfos', 'departmentInfos', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     public function utumishidepartment($departmentName)
@@ -147,7 +299,26 @@ class PagesController extends Controller
         $depInfos = DepartmentService::where('departmentName', $departmentName)->where('status', 1)->paginate(10);
         $docInfos = UploadedDocs::where('departmentName', $departmentName)->where('status', 1)->get();
         $departmentInfo = DepartmentService::orWhere('departmentName', $departmentName)->first();
-        return view('pages.serviceinfo', compact(['postInfos', 'anouncementInfos', 'departmentInfos', 'depInfos', 'docInfos', 'departmentInfo']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.serviceinfo', compact(['postInfos', 'anouncementInfos', 'departmentInfos', 'depInfos', 'docInfos', 'departmentInfo', 'totalVisitors', 'todayVisitors','weeklyVisitors', 'monthlyVisitors']));
     }
 
 
@@ -160,7 +331,26 @@ class PagesController extends Controller
         $departmentInfos = DepartmentService::where('status', 1)->get();
         $uplodedDocx =  UploadedDocs::where('departmentName', $departmentName)->where('status', 1)->get();
         $departmentInfo = DepartmentService::orWhere('departmentName', $departmentName)->first();
-        return view('pages.docinfo', compact(['postInfos', 'postInfos', 'anouncementInfos', 'departmentInfos', 'uplodedDocx', 'departmentInfo']));
+
+        $today = Carbon::today();
+        $weekStart = Carbon::now()->startOfWeek();
+        $weekEnd = Carbon::now()->endOfWeek();
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+
+        // Total visitors
+        $totalVisitors = Visitor::count();
+
+        // Today's visitors
+        $todayVisitors = Visitor::whereDate('created_at', $today)->count();
+
+        // Weekly visitors
+        $weeklyVisitors = Visitor::whereBetween('created_at', [$weekStart, $weekEnd])->count();
+
+        //Monthly Visitors
+        $monthlyVisitors = Visitor::whereBetween('created_at', [$monthStart, $monthEnd])->count();
+
+        return view('pages.docinfo', compact(['postInfos', 'postInfos', 'anouncementInfos', 'departmentInfos', 'uplodedDocx', 'departmentInfo', 'totalVisitors', 'todayVisitors', 'weeklyVisitors', 'monthlyVisitors']));
     }
 
     //Function to send message 
