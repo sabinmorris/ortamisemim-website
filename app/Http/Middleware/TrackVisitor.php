@@ -53,7 +53,7 @@ class TrackVisitor
 
             $recent = Visitor::where('ip_address', $ip)
                 ->where('url', $request->fullUrl())
-                ->where('created_at', '>=', now()->subMinutes(5))
+                ->where('created_at', '>=', now()->subMinutes(30))
                 ->exists();
 
             if (! $recent) {
